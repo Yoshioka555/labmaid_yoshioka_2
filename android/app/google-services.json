@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1050327724211",
+    "project_id": "labmaid-demo",
+    "storage_bucket": "labmaid-demo.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1050327724211:android:16c088492eda05c0d440c6",
+        "android_client_info": {
+          "package_name": "com.example.labmaidfastapi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAF1Sspz2LlIAASDzovYDaNzQ0CfMhuZnQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
