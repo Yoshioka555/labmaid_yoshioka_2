@@ -10,6 +10,7 @@ import 'package:labmaidfastapi/minutes/minutes_main_text_page.dart';
 
 import '../domain/memo_data.dart';
 import '../network/url.dart';
+import 'minutes_main_text_demo.dart';
 
 class MemoListShow extends StatefulWidget {
   final List<MemoData> memoList;
@@ -92,10 +93,8 @@ class _MemoListShow extends State<MemoListShow> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue.shade800,
@@ -104,7 +103,8 @@ class _MemoListShow extends State<MemoListShow> {
         ),
         centerTitle: true,
         elevation: 0.0,
-        title: const Text('議事録一覧',
+        title: const Text(
+          '議事録一覧',
           style: TextStyle(
             color: Colors.white,
           ),
@@ -116,14 +116,13 @@ class _MemoListShow extends State<MemoListShow> {
           },
         ),
       ),
-      body: (widget.memoList.isEmpty) ?
-      const Center(
-        child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation(Colors.blue),
-        ),
-      )
+      body: (widget.memoList.isEmpty)
+          ? const Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation(Colors.blue),
+              ),
+            )
           : _pageNationBottomBar(widget.memoList),
-
     );
   }
 
@@ -136,7 +135,7 @@ class _MemoListShow extends State<MemoListShow> {
       child: InkWell(
         onTap: () {
           setState(
-                () {
+            () {
               function();
               // ↑何かしらのイベントを呼ぶ（APIとか）
             },
@@ -152,11 +151,10 @@ class _MemoListShow extends State<MemoListShow> {
     _itemCount = memoList.length;
 
     // ページの最大数
-    if(_itemCount % 10 == 0) {
-      _maxPage = _itemCount ~/10;
-    }
-    else {
-      _maxPage = _itemCount ~/10 + 1;
+    if (_itemCount % 10 == 0) {
+      _maxPage = _itemCount ~/ 10;
+    } else {
+      _maxPage = _itemCount ~/ 10 + 1;
     }
 
     // 現在のページから前後1ページを表示する
@@ -165,7 +163,7 @@ class _MemoListShow extends State<MemoListShow> {
     final startPageToEndPageCount = beforecurrentPageCount * 2 + 1;
 
     final startpage =
-    1 < _selectedIndex ? _selectedIndex - beforecurrentPageCount : 0;
+        1 < _selectedIndex ? _selectedIndex - beforecurrentPageCount : 0;
     final endpage = startpage + startPageToEndPageCount < _maxPage
         ? startpage + startPageToEndPageCount
         : _maxPage;
@@ -177,7 +175,7 @@ class _MemoListShow extends State<MemoListShow> {
       widget.add(
         _pageNationButton(
           Colors.blue,
-              () {
+          () {
             _selectedIndex--;
           },
           const Icon(Icons.arrow_back_ios_new_outlined),
@@ -191,7 +189,7 @@ class _MemoListShow extends State<MemoListShow> {
         widget.add(
           _pageNationButton(
             _notSelectColor,
-                () {
+            () {
               _selectedIndex = 0;
             },
             const Text(
@@ -222,7 +220,7 @@ class _MemoListShow extends State<MemoListShow> {
       widget.add(
         _pageNationButton(
           (i == _selectedIndex) ? _selectedColor : _notSelectColor,
-              () {
+          () {
             _selectedIndex = i;
           },
           Text(
@@ -255,7 +253,7 @@ class _MemoListShow extends State<MemoListShow> {
         widget.add(
           _pageNationButton(
             _notSelectColor,
-                () {
+            () {
               _selectedIndex = _maxPage - 1;
             },
             Text(
@@ -271,7 +269,7 @@ class _MemoListShow extends State<MemoListShow> {
       widget.add(
         _pageNationButton(
           Colors.blue,
-              () {
+          () {
             _selectedIndex++;
           },
           const Icon(Icons.arrow_forward_ios_outlined),
@@ -281,24 +279,23 @@ class _MemoListShow extends State<MemoListShow> {
 
     List<MemoData> pageMemoList = [];
 
-
-
-    if(memoList.length % 10 != 0 && _selectedIndex == memoList.length ~/ 10) {
-      pageMemoList = memoList.getRange(_selectedIndex*10, memoList.length).toList();
-
-    }
-    else {
-      pageMemoList = memoList.getRange(_selectedIndex*10, _selectedIndex*10 + 10).toList();
-
+    if (memoList.length % 10 != 0 && _selectedIndex == memoList.length ~/ 10) {
+      pageMemoList =
+          memoList.getRange(_selectedIndex * 10, memoList.length).toList();
+    } else {
+      pageMemoList = memoList
+          .getRange(_selectedIndex * 10, _selectedIndex * 10 + 10)
+          .toList();
     }
 
     DateFormat outputDate = DateFormat('yyyy年MM月dd日(EEE) a hh:mm');
 
-    final List<Widget> widgets = pageMemoList.map(
+    final List<Widget> widgets = pageMemoList
+        .map(
           (memo) => Slidable(
-        key: ValueKey(memo.id),  // ユニークなキーを使用
+            key: ValueKey(memo.id), // ユニークなキーを使用
 
-        // 左側のアクションペイン
+            // 左側のアクションペイン
             /*
         startActionPane: ActionPane(
           motion: const ScrollMotion(),
@@ -308,92 +305,97 @@ class _MemoListShow extends State<MemoListShow> {
 
              */
 
-        // 右側のアクションペイン
-        endActionPane: ActionPane(
-          motion: const ScrollMotion(),
-          children: [
-            SlidableAction(
-              onPressed: (BuildContext context) async {
-                await showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('削除の確認'),
-                      content: const Text(
-                        'この議事録を削除しますか？',
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop(false);
-                          },
-                          child: const Text('キャンセル'),
-                        ),
-                        TextButton(
-                          onPressed: () async {
-                            await delete(memo);
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const Footer(pageNumber: 3)
+            // 右側のアクションペイン
+            endActionPane: ActionPane(
+              motion: const ScrollMotion(),
+              children: [
+                SlidableAction(
+                  onPressed: (BuildContext context) async {
+                    await showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('削除の確認'),
+                          content: const Text(
+                            'この議事録を削除しますか？',
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop(false);
+                              },
+                              child: const Text('キャンセル'),
                             ),
-                            );
-                          },
-                          child: const Text('削除する'),
-                        ),
-                      ],
+                            TextButton(
+                              onPressed: () async {
+                                await delete(memo);
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const Footer(pageNumber: 3)),
+                                );
+                              },
+                              child: const Text('削除する'),
+                            ),
+                          ],
+                        );
+                      },
                     );
-                  },
-                );
-
-              }, // ここに適切な削除処理を追加
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
-              icon: Icons.delete,
-              label: 'Delete',
+                  }, // ここに適切な削除処理を追加
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                  icon: Icons.delete,
+                  label: 'Delete',
+                ),
+                SlidableAction(
+                  onPressed: (BuildContext context) {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => EditMemoPage(memo),
+                      ),
+                    );
+                  }, // 編集機能を実装する場合ここを変更
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+                  icon: Icons.edit,
+                  label: 'Edit',
+                ),
+              ],
             ),
-            SlidableAction(
-              onPressed: (BuildContext context) {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => EditMemoPage(memo),
-                  ),
-                );
 
-              }, // 編集機能を実装する場合ここを変更
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
-              icon: Icons.edit,
-              label: 'Edit',
+            // Slidableの子ウィジェット、ユーザーがドラッグしていないときに表示されるもの
+            child: ListTile(
+              title: Text('${memo.title} ${memo.team}'),
+              subtitle: Text(
+                  '${outputDate.format(memo.createdAt)} 製作者名 ${memo.userName}'),
+              trailing: IconButton(
+                icon: const Icon(Icons.login_outlined),
+                onPressed: () async {
+                  await getMinute(memo);
+                  // MainText遷移
+                  MemoData newMemo = MemoData(
+                      id: memo.id,
+                      title: memo.title,
+                      createdAt: memo.createdAt,
+                      team: memo.team,
+                      mainText: mainText,
+                      kinds: memo.kinds,
+                      userId: memo.userId,
+                      userName: memo.userName);
+
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      //builder: (context) => MainTextPage(memo: newMemo),
+                      //WebSocket用
+                      builder: (context) => MainTextPageDemo(memo: newMemo),
+                    ),
+                  );
+                },
+              ),
             ),
-          ],
-        ),
-
-        // Slidableの子ウィジェット、ユーザーがドラッグしていないときに表示されるもの
-        child: ListTile(
-          title: Text('${memo.title} ${memo.team}'),
-          subtitle: Text('${outputDate.format(memo.createdAt)} 製作者名 ${memo.userName}'),
-          trailing: IconButton(
-            icon: const Icon(Icons.login_outlined),
-            onPressed: () async {
-              await getMinute(memo);
-              // MainText遷移
-              MemoData newMemo = MemoData(
-                  id: memo.id, title: memo.title,
-                  createdAt: memo.createdAt,
-                  team: memo.team, mainText: mainText,
-                  kinds: memo.kinds, userId: memo.userId,
-                  userName: memo.userName
-              );
-
-              Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => MainTextPage(memo: newMemo),
-                  ),
-              );
-            },
           ),
-        ),
-      ),
-    ).toList();
+        )
+        .toList();
 
     return Column(
       children: [
@@ -406,11 +408,10 @@ class _MemoListShow extends State<MemoListShow> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: widget,
         ),
-        const SizedBox(height: 50,)
+        const SizedBox(
+          height: 50,
+        )
       ],
     );
   }
-
 }
-
-

@@ -43,3 +43,8 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+##無視するファイル
+/lib/firebase_options.dart
+/lib/gemini/gemini_apikey.dart
+/lib/minutes/voice_minutes/apikey_openai.dart

@@ -43,9 +43,7 @@ Future<void> main() async {
   */
 
   // MyAppウィジェットをルートとして実行
-  runApp(
-    const MyApp()
-  );
+  runApp(const MyApp());
 }
 
 Future<void> requestLocationPermission() async {
@@ -77,7 +75,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       // ローカライズデリゲートの設定
       localizationsDelegates: const [
@@ -97,7 +94,7 @@ class MyApp extends StatelessWidget {
       //テキストエラーや背景色を設定しなくても、自動的にいい感じの色味にしてくれる
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-        seedColor: Colors.blueAccent,
+          seedColor: Colors.blueAccent,
         ),
         //MaterialDesign3
         useMaterial3: true,
@@ -114,14 +111,13 @@ class MyApp extends StatelessWidget {
         // Firebase Authの状態を監視するStreamBuilder
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
-
           // 接続状態が待機中の場合、空のSizedBoxを表示
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           }
           // ユーザーが認証されている場合、フッターページを表示(ログイン維持機能)
           if (snapshot.hasData) {
-            return const Footer(pageNumber: 5);
+            return const Footer(pageNumber: 0);
           }
           // ユーザーが認証されていない場合、ログインページを表示
           return const LoginPage();

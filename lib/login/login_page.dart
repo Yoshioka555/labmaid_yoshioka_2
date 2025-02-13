@@ -51,7 +51,7 @@ class LoginPage extends StatelessWidget {
                               children: [
                                 const SizedBox(
                                     height: 200, // 高さを大きく
-                                    width: 200,  // 幅を指定
+                                    width: 200, // 幅を指定
                                     child: Image(
                                         image: AssetImage(
                                             'assets/images/labmaid_touka.png'))),
@@ -114,7 +114,7 @@ class LoginPage extends StatelessWidget {
                                 const SizedBox(height: 5),
                                 Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     TextButton(
                                       onPressed: () async {
@@ -137,10 +137,12 @@ class LoginPage extends StatelessWidget {
                                   width: double.infinity,
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      fixedSize: const Size(200, double.infinity),
+                                      fixedSize:
+                                          const Size(200, double.infinity),
                                       backgroundColor: Colors.black, //ボタンの背景色
                                       shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(5)),
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
                                     ),
                                     //Buttons.Email,
                                     onPressed: () async {
@@ -153,18 +155,15 @@ class LoginPage extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                              const Footer(
-                                                  pageNumber: 5)),
+                                                  const Footer(pageNumber: 0)),
                                         );
                                       } on FirebaseAuthException catch (e) {
                                         //ユーザーログインに失敗した場合
                                         if (e.code == 'user-not-found') {
                                           error = 'ユーザーは存在しません';
-                                        } else if (e.code ==
-                                            'invalid-email') {
+                                        } else if (e.code == 'invalid-email') {
                                           error = 'メールアドレスの形をしていません';
-                                        } else if (e.code ==
-                                            'wrong-password') {
+                                        } else if (e.code == 'wrong-password') {
                                           error = 'パスワードが間違っています';
                                         } else {
                                           error = 'ログインエラー';
@@ -199,7 +198,7 @@ class LoginPage extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                            const RegisterPage(),
+                                                const RegisterPage(),
                                             fullscreenDialog: true,
                                           ),
                                         );

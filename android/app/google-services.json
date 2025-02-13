@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "1050327724211",
-    "project_id": "labmaid-demo",
-    "storage_bucket": "labmaid-demo.firebasestorage.app"
+    "project_number": "228311877577",
+    "project_id": "labmaid-auth-demo",
+    "storage_bucket": "labmaid-auth-demo.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1050327724211:android:16c088492eda05c0d440c6",
+        "mobilesdk_app_id": "1:228311877577:android:54ac60666bb6412d4e8a18",
         "android_client_info": {
           "package_name": "com.example.labmaidfastapi"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAF1Sspz2LlIAASDzovYDaNzQ0CfMhuZnQ"
+          "current_key": "AIzaSyACK2Tb_PpzE9u0lYLMwyRpQ_xrMb0plHw"
         }
       ],
       "services": {

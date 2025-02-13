@@ -59,19 +59,22 @@ class _MainTextPageState extends State<MainTextPage> {
           ),
         ),
         actions: [
-          kIsWeb ? const SizedBox()
-          : IconButton(
-            onPressed: () async {
-              // PDF化してプレビューを表示する処理
-              await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => VoiceMemoPage(memo: widget.memo,),
+          kIsWeb
+              ? const SizedBox()
+              : IconButton(
+                  onPressed: () async {
+                    // PDF化してプレビューを表示する処理
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => VoiceMemoPage(
+                          memo: widget.memo,
+                        ),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.mic),
                 ),
-              );
-            },
-            icon: const Icon(Icons.mic),
-          ),
           IconButton(
             onPressed: () async {
               // PDF化してプレビューを表示する処理
@@ -79,8 +82,8 @@ class _MainTextPageState extends State<MainTextPage> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => MinutesPdfPreview(
-                      _mainTextController.text,
-                      widget.memo.title,
+                    _mainTextController.text,
+                    widget.memo.title,
                   ),
                 ),
               );
@@ -90,7 +93,6 @@ class _MainTextPageState extends State<MainTextPage> {
           IconButton(
             icon: const Icon(Icons.save),
             onPressed: () async {
-
               try {
                 // mainTextの更新
                 await updateMainText();
@@ -157,5 +159,4 @@ class _MainTextPageState extends State<MainTextPage> {
       print('Request failed with status: ${response.statusCode}');
     }
   }
-
 }
